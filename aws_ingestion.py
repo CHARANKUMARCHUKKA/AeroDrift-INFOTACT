@@ -52,3 +52,32 @@ async def fetch_security_groups() -> List[SecurityGroup]:
         SecurityGroup(group_id="sg-db", ingress_rules=[{"port": 3306, "source": "sg-web"}]),
         SecurityGroup(group_id="sg-internal", ingress_rules=[{"port": 22, "source": "10.0.0.0/8"}])
     ]
+
+async def ingest_cloud_state() -> Dict[str, Any]:
+    """
+    Executes all API polling concurrently using asyncio.gather for maximum performance.
+    """
+    logger.info("Starting highly concurrent Cloud State Ingestion...")
+    
+    # Run all I/O bound tasks concurrently
+    results = await asyncio.gather(
+        fetch_ec2_instances(),
+        fetch_subnets(),
+        fetch_security_groups()
+    )
+    
+    cloud_state = {
+        "ec2": [vars(inst) for inst in results[0]],
+        "subnets": [vars(sub) for sub in results[1]],
+        "security_groups": [vars(sg) for sg in results[2]]
+    }
+    
+    logger.info("Cloud State Ingestion completed successfully.")
+    return cloud_state
+
+if __name__ == "__main__":
+    # Local manual testing
+    logger.info("Booting AeroDrift Mock Engine...")
+    state = asyncio.run(ingest_cloud_state())
+    print("\n=== Ingested AWS State ===")
+    print(json.dumps(state, indent=2))
