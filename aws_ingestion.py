@@ -35,3 +35,11 @@ async def fetch_ec2_instances() -> List[EC2Instance]:
         EC2Instance(instance_id="i-0abcd1234efgh5678", subnet_id="subnet-111", security_group_ids=["sg-web"]),
         EC2Instance(instance_id="i-0wxyz9876lkjh5432", subnet_id="subnet-222", security_group_ids=["sg-db", "sg-internal"])
     ]
+
+async def fetch_subnets() -> List[Subnet]:
+    logger.info("Polling AWS API for Subnet routing tables...")
+    await asyncio.sleep(0.8)
+    return [
+        Subnet(subnet_id="subnet-111", route_table_id="rtb-public"),
+        Subnet(subnet_id="subnet-222", route_table_id="rtb-private")
+    ]
