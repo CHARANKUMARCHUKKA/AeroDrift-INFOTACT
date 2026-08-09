@@ -43,3 +43,12 @@ async def fetch_subnets() -> List[Subnet]:
         Subnet(subnet_id="subnet-111", route_table_id="rtb-public"),
         Subnet(subnet_id="subnet-222", route_table_id="rtb-private")
     ]
+
+async def fetch_security_groups() -> List[SecurityGroup]:
+    logger.info("Polling AWS API for Security Group rules...")
+    await asyncio.sleep(1.0)
+    return [
+        SecurityGroup(group_id="sg-web", ingress_rules=[{"port": 80, "source": "0.0.0.0/0"}, {"port": 443, "source": "0.0.0.0/0"}]),
+        SecurityGroup(group_id="sg-db", ingress_rules=[{"port": 3306, "source": "sg-web"}]),
+        SecurityGroup(group_id="sg-internal", ingress_rules=[{"port": 22, "source": "10.0.0.0/8"}])
+    ]
