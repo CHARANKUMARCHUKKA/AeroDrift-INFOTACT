@@ -36,13 +36,19 @@ class SecurityGroup:
     group_id: str
     ingress_rules: List[Dict[str, Any]]
 
-async def fetch_ec2_instances() -> List[EC2Instance]:
-    logger.info("Polling AWS API for EC2 instances...")
-    await asyncio.sleep(1.2) # Simulate network latency
-    return [
-        EC2Instance(instance_id="i-0abcd1234efgh5678", subnet_id="subnet-111", security_group_ids=["sg-web"]),
-        EC2Instance(instance_id="i-0wxyz9876lkjh5432", subnet_id="subnet-222", security_group_ids=["sg-db", "sg-internal"])
-    ]
+async def fetch_ec2_instances(retries=3) -> List[EC2Instance]:
+    for attempt in range(retries):
+        try:
+            logger.info(f"Polling AWS API for EC2 instances (Attempt {attempt+1})...")
+            await asyncio.sleep(1.2) # Simulate network latency
+            return [
+                EC2Instance(instance_id="i-0abcd1234efgh5678", subnet_id="subnet-111", security_group_ids=["sg-web"]),
+                EC2Instance(instance_id="i-0wxyz9876lkjh5432", subnet_id="subnet-222", security_group_ids=["sg-db", "sg-internal"])
+            ]
+        except Exception as e:
+            logger.warning(f"EC2 Polling failed: {str(e)}. Retrying...")
+            await asyncio.sleep(2 ** attempt)
+    raise AWSAPITimeoutError("Failed to fetch EC2 instances after multiple retries.")
 
 async def fetch_subnets() -> List[Subnet]:
     logger.info("Polling AWS API for Subnet routing tables...")
