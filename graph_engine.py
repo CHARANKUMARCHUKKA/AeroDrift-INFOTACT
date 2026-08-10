@@ -5,10 +5,21 @@ Uses NetworkX to model cloud architecture mathematically.
 import networkx as nx
 import logging
 from typing import Dict, Any
+from rich.console import Console
+from rich.theme import Theme
+from rich.table import Table
+from rich.tree import Tree
 
-# Setup premium logging
+# Setup premium logging and Rich Console
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("AeroDrift.GraphEngine")
+
+custom_theme = Theme({
+    "info": "dim cyan",
+    "warning": "magenta",
+    "danger": "bold red"
+})
+console = Console(theme=custom_theme)
 
 class CloudTopologyEngine:
     """
@@ -28,6 +39,7 @@ class CloudTopologyEngine:
                 type='Subnet', 
                 route_table=subnet['route_table_id']
             )
+
     def map_security_groups(self):
         """Maps Security Groups and their ingress rules as nodes and edges."""
         logger.info("Mapping Security Groups and ingress pathways...")
@@ -41,6 +53,7 @@ class CloudTopologyEngine:
                     port=rule['port'],
                     relation='allows_traffic'
                 )
+
     def map_ec2_instances(self):
         """Maps EC2 instances and connects them to their subnets and security groups."""
         logger.info("Mapping EC2 instances to Subnets and Security Groups...")
@@ -51,6 +64,7 @@ class CloudTopologyEngine:
             # Link to Security Groups
             for sg_id in ec2['security_group_ids']:
                 self.graph.add_edge(sg_id, ec2['instance_id'], relation='protected_by')
+
     def build(self) -> nx.DiGraph:
         """Executes the full mapping pipeline and returns the graph."""
         self.map_subnets()
@@ -58,6 +72,7 @@ class CloudTopologyEngine:
         self.map_ec2_instances()
         logger.info(f"Topology built successfully: {self.graph.number_of_nodes()} Nodes, {self.graph.number_of_edges()} Edges.")
         return self.graph
+
 
 if __name__ == "__main__":
     from aws_ingestion import ingest_cloud_state
