@@ -19,3 +19,12 @@ class CloudTopologyEngine:
         self.graph = nx.DiGraph()
         logger.info("Initialized Empty Directed Graph for Topology Mapping.")
 
+    def map_subnets(self):
+        """Maps AWS Subnets as primary nodes in the graph."""
+        logger.info("Mapping Subnets into Topology...")
+        for subnet in self.cloud_state.get('subnets', []):
+            self.graph.add_node(
+                subnet['subnet_id'], 
+                type='Subnet', 
+                route_table=subnet['route_table_id']
+            )
