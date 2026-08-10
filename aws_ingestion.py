@@ -12,6 +12,14 @@ from dataclasses import dataclass
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("AeroDrift.Ingestion")
 
+class AWSAPITimeoutError(Exception):
+    """Custom exception raised when an AWS API endpoint times out."""
+    pass
+
+class AWSRateLimitError(Exception):
+    """Custom exception raised when AWS API rate limits are exceeded."""
+    pass
+
 @dataclass
 class EC2Instance:
     instance_id: str
@@ -54,29 +62,17 @@ async def fetch_security_groups() -> List[SecurityGroup]:
     ]
 
 async def ingest_cloud_state() -> Dict[str, Any]:
-    """
-    Executes all API polling concurrently using asyncio.gather for maximum performance.
-    """
     logger.info("Starting highly concurrent Cloud State Ingestion...")
-    
-    # Run all I/O bound tasks concurrently
-    results = await asyncio.gather(
-        fetch_ec2_instances(),
-        fetch_subnets(),
-        fetch_security_groups()
-    )
-    
+    results = await asyncio.gather(fetch_ec2_instances(), fetch_subnets(), fetch_security_groups())
     cloud_state = {
         "ec2": [vars(inst) for inst in results[0]],
         "subnets": [vars(sub) for sub in results[1]],
         "security_groups": [vars(sg) for sg in results[2]]
     }
-    
     logger.info("Cloud State Ingestion completed successfully.")
     return cloud_state
 
 if __name__ == "__main__":
-    # Local manual testing
     logger.info("Booting AeroDrift Mock Engine...")
     state = asyncio.run(ingest_cloud_state())
     print("\n=== Ingested AWS State ===")
