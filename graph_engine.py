@@ -28,3 +28,16 @@ class CloudTopologyEngine:
                 type='Subnet', 
                 route_table=subnet['route_table_id']
             )
+    def map_security_groups(self):
+        """Maps Security Groups and their ingress rules as nodes and edges."""
+        logger.info("Mapping Security Groups and ingress pathways...")
+        for sg in self.cloud_state.get('security_groups', []):
+            self.graph.add_node(sg['group_id'], type='SecurityGroup')
+            for rule in sg['ingress_rules']:
+                # Traffic flows from source to the security group
+                self.graph.add_edge(
+                    rule['source'], 
+                    sg['group_id'], 
+                    port=rule['port'],
+                    relation='allows_traffic'
+                )
