@@ -74,6 +74,19 @@ class CloudTopologyEngine:
         return self.graph
 
 
+    def render_nodes_table(self):
+        """Uses Rich to render a beautiful table of all discovered nodes."""
+        table = Table(title="AeroDrift Discovered Cloud Resources", show_header=True, header_style="bold magenta")
+        table.add_column("Resource ID", style="cyan", width=25)
+        table.add_column("Resource Type", style="green")
+        table.add_column("Metadata", style="dim")
+        
+        for node, data in self.graph.nodes(data=True):
+            meta = ", ".join(f"{k}={v}" for k,v in data.items() if k != 'type')
+            table.add_row(node, data.get('type', 'Unknown'), meta)
+            
+        console.print(table)
+
 if __name__ == "__main__":
     from aws_ingestion import ingest_cloud_state
     import asyncio
