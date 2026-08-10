@@ -87,22 +87,40 @@ class CloudTopologyEngine:
             
         console.print(table)
 
+    def render_edges_tree(self):
+        """Uses Rich to render an attack-path tree based on edges."""
+        tree = Tree("[bold red]Cloud Attack Pathways / Network Edges[/bold red]")
+        
+        # Group edges by target
+        targets = {}
+        for u, v, data in self.graph.edges(data=True):
+            if v not in targets:
+                targets[v] = []
+            targets[v].append((u, data))
+            
+        for target, sources in targets.items():
+            target_branch = tree.add(f"[green]{target}[/green]")
+            for source, data in sources:
+                rel = data.get('relation', 'connected_to')
+                port_info = f" on port {data['port']}" if 'port' in data else ""
+                target_branch.add(f"[cyan]{source}[/cyan] [white]-({rel}{port_info})->[/white]")
+                
+        console.print(tree)
+
 if __name__ == "__main__":
     from aws_ingestion import ingest_cloud_state
     import asyncio
     
-    logger.info("Booting AeroDrift Topology Grapher...")
+    console.rule("[bold blue]AeroDrift Initialization[/bold blue]")
+    
     # Fetch mock data
     state = asyncio.run(ingest_cloud_state())
     
     # Build Graph
     engine = CloudTopologyEngine(state)
-    topology = engine.build()
+    engine.build()
     
-    print("\n=== Topology Nodes ===")
-    for node in topology.nodes(data=True):
-        print(node)
-        
-    print("\n=== Topology Edges ===")
-    for edge in topology.edges(data=True):
-        print(edge)
+    print("\n")
+    engine.render_nodes_table()
+    print("\n")
+    engine.render_edges_tree()
