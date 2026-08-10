@@ -41,3 +41,13 @@ class CloudTopologyEngine:
                     port=rule['port'],
                     relation='allows_traffic'
                 )
+    def map_ec2_instances(self):
+        """Maps EC2 instances and connects them to their subnets and security groups."""
+        logger.info("Mapping EC2 instances to Subnets and Security Groups...")
+        for ec2 in self.cloud_state.get('ec2', []):
+            self.graph.add_node(ec2['instance_id'], type='EC2')
+            # Link to Subnet
+            self.graph.add_edge(ec2['subnet_id'], ec2['instance_id'], relation='resides_in')
+            # Link to Security Groups
+            for sg_id in ec2['security_group_ids']:
+                self.graph.add_edge(sg_id, ec2['instance_id'], relation='protected_by')
