@@ -51,3 +51,30 @@ class CloudTopologyEngine:
             # Link to Security Groups
             for sg_id in ec2['security_group_ids']:
                 self.graph.add_edge(sg_id, ec2['instance_id'], relation='protected_by')
+    def build(self) -> nx.DiGraph:
+        """Executes the full mapping pipeline and returns the graph."""
+        self.map_subnets()
+        self.map_security_groups()
+        self.map_ec2_instances()
+        logger.info(f"Topology built successfully: {self.graph.number_of_nodes()} Nodes, {self.graph.number_of_edges()} Edges.")
+        return self.graph
+
+if __name__ == "__main__":
+    from aws_ingestion import ingest_cloud_state
+    import asyncio
+    
+    logger.info("Booting AeroDrift Topology Grapher...")
+    # Fetch mock data
+    state = asyncio.run(ingest_cloud_state())
+    
+    # Build Graph
+    engine = CloudTopologyEngine(state)
+    topology = engine.build()
+    
+    print("\n=== Topology Nodes ===")
+    for node in topology.nodes(data=True):
+        print(node)
+        
+    print("\n=== Topology Edges ===")
+    for edge in topology.edges(data=True):
+        print(edge)
