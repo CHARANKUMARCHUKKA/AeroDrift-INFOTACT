@@ -3,8 +3,8 @@
 This is the repository for the AeroDrift project, built during the Infotact Solutions Internship (Month 1).
 
 ## Team Members
-- Pudi Gowtham Kumar (Team Lead)
-- Charan Kumar Chukka
+- Charan Kumar Chukka (Team Lead)
+- Pudi Gowtham Kumar
 
 ## Project Overview
 AeroDrift is an autonomous "self-healing" infrastructure engine designed to intercept cloud configuration drift, model it as a directed graph, and programmatically generate remediation scripts.
