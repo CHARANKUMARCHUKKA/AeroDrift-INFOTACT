@@ -17,3 +17,10 @@ def test_security_group_mapping():
     engine.map_security_groups()
     assert "sg-1" in engine.graph.nodes
     assert engine.graph.has_edge("0.0.0.0/0", "sg-1")
+
+def test_ec2_mapping():
+    engine = CloudTopologyEngine({"ec2": [{"instance_id": "i-1", "subnet_id": "sub-1", "security_group_ids": ["sg-1"]}], "subnets": [], "security_groups": []})
+    engine.map_ec2_instances()
+    assert "i-1" in engine.graph.nodes
+    assert engine.graph.has_edge("sub-1", "i-1")
+    assert engine.graph.has_edge("sg-1", "i-1")
