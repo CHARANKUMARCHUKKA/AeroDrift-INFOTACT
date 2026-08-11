@@ -8,7 +8,7 @@ from typing import Dict, Any
 from rich.console import Console
 from rich.theme import Theme
 from rich.table import Table
-from rich.tree import Tree
+from rich.tree import Tree\nfrom drift_detector import DriftDetector
 
 # Setup premium logging and Rich Console
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
