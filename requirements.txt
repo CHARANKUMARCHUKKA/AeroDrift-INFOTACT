@@ -1,3 +1,1 @@
-boto3
-networkx
-rich
+boto3\nnetworkx\nrich\npytest\npytest-asyncio\n
