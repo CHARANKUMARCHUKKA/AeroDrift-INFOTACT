@@ -13,3 +13,9 @@ class DriftDetector:
         for node, data in self.topology.nodes(data=True):
             if data.get('type') == 'Subnet' and data.get('route_table') == 'rtb-public':
                 self.alerts.append(f"CRITICAL: Subnet {node} is public and exposed.")
+
+    def scan_permissive_sgs(self):
+        logger.info("Scanning for overly permissive Security Groups...")
+        for u, v, data in self.topology.edges(data=True):
+            if u == '0.0.0.0/0':
+                self.alerts.append(f"HIGH: Security Group {v} allows public access from 0.0.0.0/0 on port {data.get('port')}.")
