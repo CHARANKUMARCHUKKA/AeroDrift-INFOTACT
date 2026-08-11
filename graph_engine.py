@@ -8,7 +8,8 @@ from typing import Dict, Any
 from rich.console import Console
 from rich.theme import Theme
 from rich.table import Table
-from rich.tree import Tree\nfrom drift_detector import DriftDetector
+from rich.tree import Tree
+from drift_detector import DriftDetector
 
 # Setup premium logging and Rich Console
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -124,3 +125,16 @@ if __name__ == "__main__":
     engine.render_nodes_table()
     print("\n")
     engine.render_edges_tree()
+    
+    console.rule("[bold red]Cybersecurity Drift Analysis[/bold red]")
+    detector = DriftDetector(engine.graph)
+    alerts = detector.run_all_scans()
+    if alerts:
+        for alert in alerts:
+            if "CRITICAL" in alert:
+                console.print(f"[bold red]!! {alert}[/bold red]")
+            else:
+                console.print(f"[bold yellow]! {alert}[/bold yellow]")
+    else:
+        console.print("[bold green]All systems secure. No drift detected.[/bold green]")
+
