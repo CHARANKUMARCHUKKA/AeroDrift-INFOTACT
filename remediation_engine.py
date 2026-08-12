@@ -8,4 +8,6 @@ class AutoRemediator:
         self.remediation_commands = []
 
     def remediate_subnet(self, subnet_id):
-        pass # Placeholder for subnet remediation
+        logger.info(f"Generating fix for {subnet_id}...")
+        command = f"aws ec2 disassociate-route-table --subnet-id {subnet_id} --route-table-id rtb-public"
+        self.remediation_commands.append(command)
