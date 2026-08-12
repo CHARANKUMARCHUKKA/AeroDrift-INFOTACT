@@ -3,9 +3,9 @@ import logging
 logger = logging.getLogger("AeroDrift.AutoRemediator")
 
 class AutoRemediator:
-    def __init__(self, alerts):
-        self.alerts = alerts
-        self.remediation_commands = []
+    def __init__(self, alerts, safe_mode=True):
+        self.alerts = alerts\n        self.safe_mode = safe_mode
+        self.remediation_commands = []\n        if self.safe_mode:\n            self.remediation_commands.append('# SAFE MODE ENABLED: Review commands before execution')
 
     def remediate_subnet(self, subnet_id):
         logger.info(f"Generating fix for {subnet_id}...")
