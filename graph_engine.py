@@ -9,7 +9,7 @@ from rich.console import Console
 from rich.theme import Theme
 from rich.table import Table
 from rich.tree import Tree
-from drift_detector import DriftDetector
+from drift_detector import DriftDetector\nfrom remediation_engine import AutoRemediator
 
 # Setup premium logging and Rich Console
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
