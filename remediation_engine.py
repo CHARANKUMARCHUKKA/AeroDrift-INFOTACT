@@ -13,4 +13,6 @@ class AutoRemediator:
         self.remediation_commands.append(command)
 
     def remediate_security_group(self, sg_id, port):
-        pass # Placeholder for SG remediation
+        logger.info(f"Generating fix for {sg_id} on port {port}...")
+        command = f"aws ec2 revoke-security-group-ingress --group-id {sg_id} --protocol tcp --port {port} --cidr 0.0.0.0/0"
+        self.remediation_commands.append(command)
