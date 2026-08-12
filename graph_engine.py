@@ -9,7 +9,8 @@ from rich.console import Console
 from rich.theme import Theme
 from rich.table import Table
 from rich.tree import Tree
-from drift_detector import DriftDetector\nfrom remediation_engine import AutoRemediator
+from drift_detector import DriftDetector
+from remediation_engine import AutoRemediator
 
 # Setup premium logging and Rich Console
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -138,3 +139,9 @@ if __name__ == "__main__":
     else:
         console.print("[bold green]All systems secure. No drift detected.[/bold green]")
 
+    console.rule("[bold magenta]Auto-Remediation Engine[/bold magenta]")
+    remediator = AutoRemediator(alerts)
+    script_path = remediator.generate_script()
+    if script_path:
+        console.print(f"[bold green]Success![/bold green] Remediation script generated at: [bold cyan]{script_path}[/bold cyan]")
+        console.print("Run [bold]bash remediate_drift.sh[/bold] to apply fixes.")

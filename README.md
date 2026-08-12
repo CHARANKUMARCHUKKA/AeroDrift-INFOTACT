@@ -28,3 +28,6 @@ AeroDrift is an autonomous "self-healing" infrastructure engine designed to inte
 
 ## Daily Work Log (Charan Kumar Chukka)
 - **Day 1:** Initialized Git repository, setup `README.md`, `requirements.txt`, and `.gitignore`. Built the core `aws_ingestion.py` and `graph_engine.py` for AeroDrift Week 1.
+
+## Auto-Remediation Engine
+AeroDrift includes an advanced `AutoRemediator` class. When the Drift Detector flags vulnerabilities (like exposed subnets or overly permissive security groups), the Auto-Remediator parses those alerts and automatically generates an AWS CLI bash script (`remediate_drift.sh`) to patch the vulnerabilities without human intervention.
