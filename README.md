@@ -1,4 +1,4 @@
-# AeroDrift: Agentic Cloud Topology & Remediation Graph
+![CI/CD Pipeline](https://github.com/CHARANKUMARCHUKKA/AeroDrift-INFOTACT/actions/workflows/python-app.yml/badge.svg)\n\n# AeroDrift: Agentic Cloud Topology & Remediation Graph
 
 This is the repository for the AeroDrift project, built during the Infotact Solutions Internship (Month 1).
 
