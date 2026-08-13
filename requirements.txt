@@ -1,1 +1,1 @@
-boto3\nnetworkx\nrich\npytest\npytest-asyncio\n
+boto3\nnetworkx\nrich\npytest\npytest-asyncio\nflake8\n
