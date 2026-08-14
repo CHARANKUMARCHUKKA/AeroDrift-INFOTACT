@@ -16,3 +16,6 @@ COPY . .
 # Security: Run as non-root user
 RUN useradd -m aerodrift
 USER aerodrift
+
+# Default entrypoint starts the Cloud Topology Engine
+CMD ["python", "graph_engine.py"]
