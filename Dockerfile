@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Security: Run as non-root user
-RUN useradd -m aerodrift
+RUN useradd -m aerodrift && chown -R aerodrift:aerodrift /app
 USER aerodrift
 
 # Default entrypoint starts the Cloud Topology Engine
