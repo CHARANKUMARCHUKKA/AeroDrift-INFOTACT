@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  aerodrift-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aerodrift-engine
+    restart: "no"
