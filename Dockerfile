@@ -12,3 +12,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+
+# Security: Run as non-root user
+RUN useradd -m aerodrift
+USER aerodrift
