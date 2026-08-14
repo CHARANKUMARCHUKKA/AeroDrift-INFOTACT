@@ -31,3 +31,22 @@ AeroDrift is an autonomous "self-healing" infrastructure engine designed to inte
 
 ## Auto-Remediation Engine
 AeroDrift includes an advanced `AutoRemediator` class. When the Drift Detector flags vulnerabilities (like exposed subnets or overly permissive security groups), the Auto-Remediator parses those alerts and automatically generates an AWS CLI bash script (`remediate_drift.sh`) to patch the vulnerabilities without human intervention.
+
+## 🐳 Docker Deployment
+
+AeroDrift is fully containerized for enterprise deployments.
+
+**Build the image:**
+```bash
+docker build -t aerodrift .
+```
+
+**Run the engine:**
+```bash
+docker run --rm aerodrift
+```
+
+**Using Docker Compose:**
+```bash
+docker-compose up --build
+```

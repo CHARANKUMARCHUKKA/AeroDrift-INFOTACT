@@ -1,0 +1,21 @@
+# AeroDrift Enterprise Dockerfile
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install system dependencies required for underlying libraries
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+# Security: Run as non-root user
+RUN useradd -m aerodrift
+USER aerodrift
+
+# Default entrypoint starts the Cloud Topology Engine
+CMD ["python", "graph_engine.py"]
