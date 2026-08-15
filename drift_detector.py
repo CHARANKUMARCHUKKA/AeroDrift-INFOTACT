@@ -1,7 +1,8 @@
 import networkx as nx
 import logging
+from enterprise_logger import setup_enterprise_logger
 
-logger = logging.getLogger("AeroDrift.DriftDetector")
+logger = setup_enterprise_logger("AeroDrift.DriftDetector")
 
 class DriftDetector:
     def __init__(self, topology: nx.DiGraph):

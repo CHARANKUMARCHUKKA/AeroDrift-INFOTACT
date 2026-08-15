@@ -5,12 +5,12 @@ Simulates high-concurrency ingestion of AWS state data.
 import asyncio
 import json
 import logging
+from enterprise_logger import setup_enterprise_logger
 from typing import List, Dict, Any
 from dataclasses import dataclass
 
 # Setup premium logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger("AeroDrift.Ingestion")
+logger = setup_enterprise_logger("AeroDrift.Ingestion")
 
 class AWSAPITimeoutError(Exception):
     """Custom exception raised when an AWS API endpoint times out."""

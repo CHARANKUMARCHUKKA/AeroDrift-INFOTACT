@@ -7,3 +7,5 @@ services:
       dockerfile: Dockerfile
     container_name: aerodrift-engine
     restart: "no"
+    volumes:
+      - ./logs:/app/logs
