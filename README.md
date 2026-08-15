@@ -50,3 +50,6 @@ docker run --rm aerodrift
 ```bash
 docker-compose up --build
 ```
+
+## 📊 Enterprise Logging
+AeroDrift features an enterprise-grade JSON logging system. All operations are automatically logged in structured JSON format to `logs/aerodrift.json` with a 5MB automatic rotation policy, making it instantly compatible with Splunk, Datadog, and ELK stacks.
