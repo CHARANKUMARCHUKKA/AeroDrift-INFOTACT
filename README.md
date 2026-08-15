@@ -26,8 +26,14 @@ AeroDrift is an autonomous "self-healing" infrastructure engine designed to inte
 2. Activate it: `.\venv\Scripts\activate` (Windows) or `source venv/bin/activate` (Mac/Linux)
 3. Install dependencies: `pip install -r requirements.txt`
 
-## Daily Work Log (Charan Kumar Chukka)
+## Daily Work Log
 - **Day 1:** Initialized Git repository, setup `README.md`, `requirements.txt`, and `.gitignore`. Built the core `aws_ingestion.py` and `graph_engine.py` for AeroDrift Week 1.
+- **Day 2:** Refactored the core ingestion engine to use `asyncio` for high-concurrency polling and added network resiliency/retry logic. Built the NetworkX Cloud Topology Engine and the `Rich` CLI dashboard.
+- **Day 3:** Built the `DriftDetector` module to programmatically scan the graph for cybersecurity anti-patterns (e.g., exposed public subnets, overly permissive 0.0.0.0/0 Security Groups). Implemented the Pytest framework with 8 automated tests.
+- **Day 4:** Developed the **Auto-Remediation Engine** (`remediation_engine.py`) to parse Drift Detector alerts and automatically generate an AWS CLI bash script (`remediate_drift.sh`) to patch cloud vulnerabilities.
+- **Day 5:** Configured an Enterprise CI/CD Pipeline using GitHub Actions (`python-app.yml`). Implemented automated matrix testing (Python 3.10-3.12) and strict code-quality linting using `flake8`.
+- **Day 6:** Containerized the AeroDrift engine by creating a highly-optimized, secure `Dockerfile` running on a non-root user. Orchestrated local deployments with `docker-compose.yml`.
+- **Day 7:** Built an **Advanced Enterprise JSON Logging System** (`enterprise_logger.py`). Configured file rotation handlers and integrated structured JSON logging across all 4 core engines for Splunk/Datadog compatibility.
 
 ## Auto-Remediation Engine
 AeroDrift includes an advanced `AutoRemediator` class. When the Drift Detector flags vulnerabilities (like exposed subnets or overly permissive security groups), the Auto-Remediator parses those alerts and automatically generates an AWS CLI bash script (`remediate_drift.sh`) to patch the vulnerabilities without human intervention.
