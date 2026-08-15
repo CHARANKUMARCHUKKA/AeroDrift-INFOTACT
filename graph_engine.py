@@ -4,6 +4,7 @@ Uses NetworkX to model cloud architecture mathematically.
 """
 import networkx as nx
 import logging
+from enterprise_logger import setup_enterprise_logger
 from typing import Dict, Any
 from rich.console import Console
 from rich.theme import Theme
@@ -13,8 +14,7 @@ from drift_detector import DriftDetector
 from remediation_engine import AutoRemediator
 
 # Setup premium logging and Rich Console
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger("AeroDrift.GraphEngine")
+logger = setup_enterprise_logger("AeroDrift.GraphEngine")
 
 custom_theme = Theme({
     "info": "dim cyan",
