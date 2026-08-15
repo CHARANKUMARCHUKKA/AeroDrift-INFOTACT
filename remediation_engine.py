@@ -1,6 +1,7 @@
 import logging
+from enterprise_logger import setup_enterprise_logger
 
-logger = logging.getLogger("AeroDrift.AutoRemediator")
+logger = setup_enterprise_logger("AeroDrift.AutoRemediator")
 
 class AutoRemediator:
     def __init__(self, alerts, safe_mode=True):
