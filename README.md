@@ -59,3 +59,21 @@ docker-compose up --build
 
 ## 📊 Enterprise Logging
 AeroDrift features an enterprise-grade JSON logging system. All operations are automatically logged in structured JSON format to `logs/aerodrift.json` with a 5MB automatic rotation policy, making it instantly compatible with Splunk, Datadog, and ELK stacks.
+
+## ☁️ Live AWS Boto3 Integration
+AeroDrift supports both `MOCK` mode for testing and `LIVE` mode for connecting to real AWS accounts.
+
+**To run in LIVE mode:**
+1. Export your AWS Credentials:
+   ```bash
+   export AWS_ACCESS_KEY_ID="your_key"
+   export AWS_SECRET_ACCESS_KEY="your_secret"
+   ```
+2. Set the engine mode:
+   ```bash
+   export AERODRIFT_MODE="LIVE"
+   ```
+3. Required IAM Permissions:
+   - `ec2:DescribeInstances`
+   - `ec2:DescribeSubnets`
+   - `ec2:DescribeSecurityGroups`
