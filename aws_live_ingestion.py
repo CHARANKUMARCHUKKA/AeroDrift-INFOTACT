@@ -54,12 +54,35 @@ class LiveAWSIngestor:
             return []
 
     async def fetch_all_resources(self):
-        ec2_instances, subnets = await asyncio.gather(
+        
+            
+    async def fetch_security_groups(self):
+        if not self.ec2_client: return []
+        logger.info("Polling real AWS API for Security Groups...")
+        try:
+            response = await asyncio.to_thread(self.ec2_client.describe_security_groups)
+            sgs = []
+            for sg in response.get('SecurityGroups', []):
+                rules = []
+                for perm in sg.get('IpPermissions', []):
+                    port = perm.get('FromPort', 'all')
+                    for ip_range in perm.get('IpRanges', []):
+                        rules.append({"port": port, "source": ip_range.get('CidrIp')})
+                sgs.append(SecurityGroup(id=sg['GroupId'], type="SecurityGroup", ingress_rules=rules))
+            return sgs
+        except Exception as e:
+            logger.error(f"Error fetching Security Groups: {e}")
+            return []
+
+    async def fetch_all_resources(self):
+        ec2_instances, subnets, sgs = await asyncio.gather(
             self.fetch_ec2_instances(),
-            self.fetch_subnets()
+            self.fetch_subnets(),
+            self.fetch_security_groups()
         )
         return {
             "ec2": ec2_instances,
             "subnets": subnets,
-            "security_groups": []
+            "security_groups": sgs
+        }
         }
