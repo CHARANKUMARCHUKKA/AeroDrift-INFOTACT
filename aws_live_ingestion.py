@@ -36,9 +36,30 @@ class LiveAWSIngestor:
             return []
 
     async def fetch_all_resources(self):
-        ec2_instances = await self.fetch_ec2_instances()
+        
+            
+    async def fetch_subnets(self):
+        if not self.ec2_client: return []
+        logger.info("Polling real AWS API for Subnets...")
+        try:
+            response = await asyncio.to_thread(self.ec2_client.describe_subnets)
+            subnets = []
+            for sub in response.get('Subnets', []):
+                is_public = sub.get('MapPublicIpOnLaunch', False)
+                route_table = "rtb-public" if is_public else "rtb-private"
+                subnets.append(Subnet(id=sub['SubnetId'], type="Subnet", route_table=route_table))
+            return subnets
+        except Exception as e:
+            logger.error(f"Error fetching Subnets: {e}")
+            return []
+
+    async def fetch_all_resources(self):
+        ec2_instances, subnets = await asyncio.gather(
+            self.fetch_ec2_instances(),
+            self.fetch_subnets()
+        )
         return {
             "ec2": ec2_instances,
-            "subnets": [],
+            "subnets": subnets,
             "security_groups": []
         }
