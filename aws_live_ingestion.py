@@ -2,7 +2,7 @@ import boto3
 import asyncio
 from aws_credentials import load_aws_credentials
 from enterprise_logger import setup_enterprise_logger
-from aws_ingestion import Resource, EC2Instance, Subnet, SecurityGroup
+from aws_ingestion import EC2Instance, Subnet, SecurityGroup
 
 logger = setup_enterprise_logger("AeroDrift.LiveIngestion")
 
@@ -17,9 +17,6 @@ class LiveAWSIngestor:
             logger.error(f"Failed to initialize Boto3 client: {e}")
             self.ec2_client = None
 
-    async def fetch_all_resources(self):
-        # We will populate this with actual API calls in the next commits
-        
     async def fetch_ec2_instances(self):
         if not self.ec2_client: return []
         logger.info("Polling real AWS API for EC2 instances...")
@@ -29,14 +26,13 @@ class LiveAWSIngestor:
             instances = []
             for res in response.get('Reservations', []):
                 for inst in res.get('Instances', []):
-                    instances.append(EC2Instance(id=inst['InstanceId'], type="EC2", subnet_id=inst.get('SubnetId', '')))
+                    # Safely extract security groups
+                    sg_ids = [sg['GroupId'] for sg in inst.get('SecurityGroups', [])]
+                    instances.append(EC2Instance(instance_id=inst['InstanceId'], subnet_id=inst.get('SubnetId', ''), security_group_ids=sg_ids))
             return instances
         except Exception as e:
             logger.error(f"Error fetching EC2 instances: {e}")
             return []
-
-    async def fetch_all_resources(self):
-        
             
     async def fetch_subnets(self):
         if not self.ec2_client: return []
@@ -47,14 +43,11 @@ class LiveAWSIngestor:
             for sub in response.get('Subnets', []):
                 is_public = sub.get('MapPublicIpOnLaunch', False)
                 route_table = "rtb-public" if is_public else "rtb-private"
-                subnets.append(Subnet(id=sub['SubnetId'], type="Subnet", route_table=route_table))
+                subnets.append(Subnet(subnet_id=sub['SubnetId'], route_table_id=route_table))
             return subnets
         except Exception as e:
             logger.error(f"Error fetching Subnets: {e}")
             return []
-
-    async def fetch_all_resources(self):
-        
             
     async def fetch_security_groups(self):
         if not self.ec2_client: return []
@@ -68,7 +61,7 @@ class LiveAWSIngestor:
                     port = perm.get('FromPort', 'all')
                     for ip_range in perm.get('IpRanges', []):
                         rules.append({"port": port, "source": ip_range.get('CidrIp')})
-                sgs.append(SecurityGroup(id=sg['GroupId'], type="SecurityGroup", ingress_rules=rules))
+                sgs.append(SecurityGroup(group_id=sg['GroupId'], ingress_rules=rules))
             return sgs
         except Exception as e:
             logger.error(f"Error fetching Security Groups: {e}")
@@ -81,8 +74,7 @@ class LiveAWSIngestor:
             self.fetch_security_groups()
         )
         return {
-            "ec2": ec2_instances,
-            "subnets": subnets,
-            "security_groups": sgs
-        }
+            "ec2": [vars(inst) for inst in ec2_instances],
+            "subnets": [vars(sub) for sub in subnets],
+            "security_groups": [vars(sg) for sg in sgs]
         }
