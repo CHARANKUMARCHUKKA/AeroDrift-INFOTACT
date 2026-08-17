@@ -36,3 +36,19 @@ async def get_topology():
         "nodes": list(engine.graph.nodes(data=True)),
         "edges": list(engine.graph.edges(data=True))
     }
+
+from drift_detector import DriftDetector
+
+@app.get("/api/v1/drift")
+async def get_drift_analysis():
+    state = await get_cloud_state()
+    engine = CloudTopologyEngine(state)
+    engine.build()
+    
+    detector = DriftDetector(engine.graph)
+    alerts = detector.run_all_scans()
+    
+    return {
+        "status": "vulnerable" if alerts else "secure",
+        "alerts": alerts
+    }
