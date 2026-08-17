@@ -11,3 +11,28 @@ async def startup_event():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "service": "AeroDrift API"}
+
+from config import Config
+from aws_live_ingestion import LiveAWSIngestor
+from aws_ingestion import fetch_all_resources as fetch_mock_resources
+from graph_engine import CloudTopologyEngine
+
+async def get_cloud_state():
+    if Config.MODE == "LIVE":
+        ingestor = LiveAWSIngestor()
+        state = await ingestor.fetch_all_resources()
+        if not state["ec2"]:
+            state = await fetch_mock_resources()
+    else:
+        state = await fetch_mock_resources()
+    return state
+
+@app.get("/api/v1/topology")
+async def get_topology():
+    state = await get_cloud_state()
+    engine = CloudTopologyEngine(state)
+    engine.build()
+    return {
+        "nodes": list(engine.graph.nodes(data=True)),
+        "edges": list(engine.graph.edges(data=True))
+    }
