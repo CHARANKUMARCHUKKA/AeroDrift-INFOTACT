@@ -7,3 +7,7 @@ app = FastAPI(title="AeroDrift Enterprise API", version="1.0.0")
 @app.on_event("startup")
 async def startup_event():
     logger.info("AeroDrift API Server Booting Up...")
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy", "service": "AeroDrift API"}
