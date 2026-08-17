@@ -52,3 +52,27 @@ async def get_drift_analysis():
         "status": "vulnerable" if alerts else "secure",
         "alerts": alerts
     }
+
+from remediation_engine import AutoRemediator
+from fastapi import HTTPException
+
+@app.post("/api/v1/remediate")
+async def trigger_remediation():
+    state = await get_cloud_state()
+    engine = CloudTopologyEngine(state)
+    engine.build()
+    
+    detector = DriftDetector(engine.graph)
+    alerts = detector.run_all_scans()
+    
+    if not alerts:
+        return {"message": "No drift detected. Infrastructure is secure."}
+        
+    remediator = AutoRemediator(alerts)
+    script_path = remediator.generate_script()
+    
+    return {
+        "message": "Remediation triggered successfully.",
+        "script_path": script_path,
+        "alerts_fixed": alerts
+    }
