@@ -25,7 +25,7 @@ async def health_check():
 
 from config import Config
 from aws_live_ingestion import LiveAWSIngestor
-from aws_ingestion import fetch_all_resources as fetch_mock_resources
+from aws_ingestion import ingest_cloud_state as fetch_mock_resources
 from graph_engine import CloudTopologyEngine
 
 async def get_cloud_state():

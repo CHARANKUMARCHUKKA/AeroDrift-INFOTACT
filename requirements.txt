@@ -3,5 +3,7 @@ networkx
 rich
 pytest
 pytest-asyncio
-flake8fastapi
+flake8
+fastapi
 uvicorn
+httpx
