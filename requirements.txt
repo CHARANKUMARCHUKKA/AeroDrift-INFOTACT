@@ -3,4 +3,5 @@ networkx
 rich
 pytest
 pytest-asyncio
-flake8
+flake8fastapi
+uvicorn
