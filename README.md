@@ -77,3 +77,15 @@ AeroDrift supports both `MOCK` mode for testing and `LIVE` mode for connecting t
    - `ec2:DescribeInstances`
    - `ec2:DescribeSubnets`
    - `ec2:DescribeSecurityGroups`
+
+## 🌐 REST API (FastAPI)
+AeroDrift is accessible via a high-performance REST API.
+Start the server locally:
+```bash
+uvicorn api:app --reload
+```
+- **Swagger Docs:** `http://localhost:8000/docs`
+- **Health Check:** `curl http://localhost:8000/health`
+- **Get Topology:** `curl http://localhost:8000/api/v1/topology`
+- **Scan Drift:** `curl http://localhost:8000/api/v1/drift`
+- **Auto-Remediate:** `curl -X POST http://localhost:8000/api/v1/remediate`

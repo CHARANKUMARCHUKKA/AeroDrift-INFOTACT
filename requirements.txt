@@ -4,3 +4,6 @@ rich
 pytest
 pytest-asyncio
 flake8
+fastapi
+uvicorn
+httpx

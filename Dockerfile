@@ -18,4 +18,6 @@ RUN useradd -m aerodrift && chown -R aerodrift:aerodrift /app
 USER aerodrift
 
 # Default entrypoint starts the Cloud Topology Engine
-CMD ["python", "graph_engine.py"]
+EXPOSE 8000
+# Default entrypoint starts the REST API server
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]

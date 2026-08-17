@@ -110,13 +110,27 @@ class CloudTopologyEngine:
         console.print(tree)
 
 if __name__ == "__main__":
-    from aws_ingestion import ingest_cloud_state
+    from aws_ingestion import ingest_cloud_state as fetch_mock_resources
+    from aws_live_ingestion import LiveAWSIngestor
+    from config import Config
     import asyncio
     
     console.rule("[bold blue]AeroDrift Initialization[/bold blue]")
     
-    # Fetch mock data
-    state = asyncio.run(ingest_cloud_state())
+    Config.print_config()
+    
+    async def get_state():
+        if Config.MODE == "LIVE":
+            ingestor = LiveAWSIngestor()
+            state = await ingestor.fetch_all_resources()
+            if not state.get("ec2"):
+                logger.warning("Live ingestion yielded no EC2 resources. Check AWS credentials. Falling back to MOCK data.")
+                state = await fetch_mock_resources()
+            return state
+        else:
+            return await fetch_mock_resources()
+            
+    state = asyncio.run(get_state())
     
     # Build Graph
     engine = CloudTopologyEngine(state)
