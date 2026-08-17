@@ -2,7 +2,18 @@ from fastapi import FastAPI
 from enterprise_logger import setup_enterprise_logger
 
 logger = setup_enterprise_logger("AeroDrift.API")
+from fastapi import Request
+import time
+
 app = FastAPI(title="AeroDrift Enterprise API", version="1.0.0")
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    logger.info(f"API Request: {request.method} {request.url.path} - Status: {response.status_code} - Duration: {process_time:.4f}s")
+    return response
 
 @app.on_event("startup")
 async def startup_event():
