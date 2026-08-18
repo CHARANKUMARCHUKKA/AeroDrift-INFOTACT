@@ -58,8 +58,10 @@ async def get_topology():
 
 from drift_detector import DriftDetector
 
+import json
+
 @app.get("/api/v1/drift")
-async def get_drift_analysis():
+async def get_drift_analysis(db: Session = Depends(get_db)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -67,8 +69,20 @@ async def get_drift_analysis():
     detector = DriftDetector(engine.graph)
     alerts = detector.run_all_scans()
     
+    scan_status = "vulnerable" if alerts else "secure"
+    
+    # Save to database
+    db_log = models.SecurityScanLog(
+        status=scan_status,
+        alerts_detected=json.dumps(alerts)
+    )
+    db.add(db_log)
+    db.commit()
+    db.refresh(db_log)
+    
     return {
-        "status": "vulnerable" if alerts else "secure",
+        "scan_id": db_log.id,
+        "status": scan_status,
         "alerts": alerts
     }
 
