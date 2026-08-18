@@ -89,3 +89,11 @@ uvicorn api:app --reload
 - **Get Topology:** `curl http://localhost:8000/api/v1/topology`
 - **Scan Drift:** `curl http://localhost:8000/api/v1/drift`
 - **Auto-Remediate:** `curl -X POST http://localhost:8000/api/v1/remediate`
+
+### Audit History API (Database)
+AeroDrift persists all security scans into an SQLite database (`aerodrift.db`) using SQLAlchemy.
+* `GET /api/v1/history` - Retrieve a paginated list of all historical security scans.
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/history?limit=5"
+```
