@@ -1,0 +1,72 @@
+{"timestamp": "2026-08-15T15:27:23.582724Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-15T15:27:23.584913Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-15T15:27:23.585054Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Subnets into Topology..."}
+{"timestamp": "2026-08-15T15:27:23.586329Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-15T15:27:23.586473Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Security Groups and ingress pathways..."}
+{"timestamp": "2026-08-15T15:27:23.587516Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-15T15:27:23.587640Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping EC2 instances to Subnets and Security Groups..."}
+{"timestamp": "2026-08-15T15:27:23.589844Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for EC2 instances (Attempt 1)..."}
+{"timestamp": "2026-08-15T15:27:24.807647Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for Subnet routing tables (Attempt 1)..."}
+{"timestamp": "2026-08-15T15:27:25.624048Z", "level": "INFO", "module": "TestLogger", "message": "Test message for JSON"}
+{"timestamp": "2026-08-15T15:27:25.626040Z", "level": "INFO", "module": "AeroDrift.AutoRemediator", "message": "Generating fix for subnet-999..."}
+{"timestamp": "2026-08-16T13:48:35.662638Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:48:35.664853Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:48:35.665299Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Subnets into Topology..."}
+{"timestamp": "2026-08-16T13:48:35.666151Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:48:35.666253Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Security Groups and ingress pathways..."}
+{"timestamp": "2026-08-16T13:48:35.667046Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:48:35.667143Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping EC2 instances to Subnets and Security Groups..."}
+{"timestamp": "2026-08-16T13:48:35.668750Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for EC2 instances (Attempt 1)..."}
+{"timestamp": "2026-08-16T13:48:36.881426Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for Subnet routing tables (Attempt 1)..."}
+{"timestamp": "2026-08-16T13:48:37.690401Z", "level": "INFO", "module": "TestLogger", "message": "Test message for JSON"}
+{"timestamp": "2026-08-16T13:48:37.692375Z", "level": "INFO", "module": "AeroDrift.AutoRemediator", "message": "Generating fix for subnet-999..."}
+{"timestamp": "2026-08-16T13:49:52.924537Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:49:52.926283Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:49:52.926430Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Subnets into Topology..."}
+{"timestamp": "2026-08-16T13:49:52.927417Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:49:52.927566Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Security Groups and ingress pathways..."}
+{"timestamp": "2026-08-16T13:49:52.928430Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:49:52.928537Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping EC2 instances to Subnets and Security Groups..."}
+{"timestamp": "2026-08-16T13:49:52.930245Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for EC2 instances (Attempt 1)..."}
+{"timestamp": "2026-08-16T13:49:54.137049Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for Subnet routing tables (Attempt 1)..."}
+{"timestamp": "2026-08-16T13:49:54.964883Z", "level": "INFO", "module": "TestLogger", "message": "Test message for JSON"}
+{"timestamp": "2026-08-16T13:49:54.971834Z", "level": "INFO", "module": "AeroDrift.AutoRemediator", "message": "Generating fix for subnet-999..."}
+{"timestamp": "2026-08-16T13:50:56.256473Z", "level": "WARNING", "module": "AeroDrift.Credentials", "message": "AWS Credentials not fully set in environment variables."}
+{"timestamp": "2026-08-16T13:50:58.728551Z", "level": "INFO", "module": "AeroDrift.LiveIngestion", "message": "Initialized live Boto3 EC2 client successfully."}
+{"timestamp": "2026-08-16T13:50:58.731351Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:50:58.732408Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:50:58.732631Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Subnets into Topology..."}
+{"timestamp": "2026-08-16T13:50:58.734136Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:50:58.734304Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Security Groups and ingress pathways..."}
+{"timestamp": "2026-08-16T13:50:58.735557Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-16T13:50:58.735656Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping EC2 instances to Subnets and Security Groups..."}
+{"timestamp": "2026-08-16T13:50:58.737293Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for EC2 instances (Attempt 1)..."}
+{"timestamp": "2026-08-16T13:50:59.944849Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for Subnet routing tables (Attempt 1)..."}
+{"timestamp": "2026-08-16T13:51:00.770324Z", "level": "INFO", "module": "TestLogger", "message": "Test message for JSON"}
+{"timestamp": "2026-08-16T13:51:00.774560Z", "level": "INFO", "module": "AeroDrift.AutoRemediator", "message": "Generating fix for subnet-999..."}
+{"timestamp": "2026-08-17T14:07:49.806608Z", "level": "WARNING", "module": "AeroDrift.Credentials", "message": "AWS Credentials not fully set in environment variables."}
+{"timestamp": "2026-08-17T14:07:52.610500Z", "level": "INFO", "module": "AeroDrift.LiveIngestion", "message": "Initialized live Boto3 EC2 client successfully."}
+{"timestamp": "2026-08-17T14:07:52.616190Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-17T14:07:52.618305Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-17T14:07:52.618550Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Subnets into Topology..."}
+{"timestamp": "2026-08-17T14:07:52.620307Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-17T14:07:52.620560Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Security Groups and ingress pathways..."}
+{"timestamp": "2026-08-17T14:07:52.622356Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-17T14:07:52.622569Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping EC2 instances to Subnets and Security Groups..."}
+{"timestamp": "2026-08-17T14:07:52.626949Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for EC2 instances (Attempt 1)..."}
+{"timestamp": "2026-08-17T14:07:53.833250Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for Subnet routing tables (Attempt 1)..."}
+{"timestamp": "2026-08-17T14:07:54.644500Z", "level": "INFO", "module": "TestLogger", "message": "Test message for JSON"}
+{"timestamp": "2026-08-17T14:07:54.649682Z", "level": "INFO", "module": "AeroDrift.AutoRemediator", "message": "Generating fix for subnet-999..."}
+{"timestamp": "2026-08-17T15:55:20.857216Z", "level": "WARNING", "module": "AeroDrift.Credentials", "message": "AWS Credentials not fully set in environment variables."}
+{"timestamp": "2026-08-17T15:55:23.561723Z", "level": "INFO", "module": "AeroDrift.LiveIngestion", "message": "Initialized live Boto3 EC2 client successfully."}
+{"timestamp": "2026-08-17T15:55:23.570453Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-17T15:55:23.573945Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-17T15:55:23.574182Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Subnets into Topology..."}
+{"timestamp": "2026-08-17T15:55:23.576033Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-17T15:55:23.576247Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping Security Groups and ingress pathways..."}
+{"timestamp": "2026-08-17T15:55:23.578063Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Initialized Empty Directed Graph for Topology Mapping."}
+{"timestamp": "2026-08-17T15:55:23.578287Z", "level": "INFO", "module": "AeroDrift.GraphEngine", "message": "Mapping EC2 instances to Subnets and Security Groups..."}
+{"timestamp": "2026-08-17T15:55:23.581952Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for EC2 instances (Attempt 1)..."}
+{"timestamp": "2026-08-17T15:55:24.809111Z", "level": "INFO", "module": "AeroDrift.Ingestion", "message": "Polling AWS API for Subnet routing tables (Attempt 1)..."}
+{"timestamp": "2026-08-17T15:55:25.623576Z", "level": "INFO", "module": "TestLogger", "message": "Test message for JSON"}
+{"timestamp": "2026-08-17T15:55:25.639783Z", "level": "INFO", "module": "AeroDrift.AutoRemediator", "message": "Generating fix for subnet-999..."}
