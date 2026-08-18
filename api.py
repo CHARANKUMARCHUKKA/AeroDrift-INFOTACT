@@ -90,7 +90,7 @@ from remediation_engine import AutoRemediator
 from fastapi import HTTPException
 
 @app.post("/api/v1/remediate")
-async def trigger_remediation():
+async def trigger_remediation(db: Session = Depends(get_db)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -103,6 +103,12 @@ async def trigger_remediation():
         
     remediator = AutoRemediator(alerts)
     script_path = remediator.generate_script()
+    
+    # Mark the latest vulnerable scan as remediated in the database
+    latest_scan = db.query(models.SecurityScanLog).filter(models.SecurityScanLog.status == "vulnerable").order_by(models.SecurityScanLog.timestamp.desc()).first()
+    if latest_scan:
+        latest_scan.remediated = True
+        db.commit()
     
     return {
         "message": "Remediation triggered successfully.",
