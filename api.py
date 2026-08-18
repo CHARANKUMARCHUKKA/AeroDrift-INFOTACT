@@ -7,6 +7,14 @@ import time
 
 app = FastAPI(title="AeroDrift Enterprise API", version="1.0.0")
 
+from database import engine, Base, get_db
+from sqlalchemy.orm import Session
+from fastapi import Depends
+import models
+
+# Create database tables
+models.Base.metadata.create_all(bind=engine)
+
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     start_time = time.time()
