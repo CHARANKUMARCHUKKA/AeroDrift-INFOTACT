@@ -109,3 +109,9 @@ async def trigger_remediation():
         "script_path": script_path,
         "alerts_fixed": alerts
     }
+
+
+@app.get("/api/v1/history")
+async def get_scan_history(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    logs = db.query(models.SecurityScanLog).order_by(models.SecurityScanLog.timestamp.desc()).offset(skip).limit(limit).all()
+    return {"history": logs}
