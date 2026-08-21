@@ -8,3 +8,5 @@
 <!-- Added detailed component breakdown -->
 
 <!-- Refined the graph engine modeling -->
+
+<!-- Clarified FastAPI backend logic -->
