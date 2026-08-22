@@ -10,3 +10,5 @@
 <!-- Refined the graph engine modeling -->
 
 <!-- Clarified FastAPI backend logic -->
+
+<!-- Updated Streamlit frontend details -->
