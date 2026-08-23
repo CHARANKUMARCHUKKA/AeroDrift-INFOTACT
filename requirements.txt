@@ -9,3 +9,6 @@ uvicorn
 httpx
 
 sqlalchemy
+streamlit
+pandas
+requests
