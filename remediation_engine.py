@@ -4,6 +4,13 @@ from enterprise_logger import setup_enterprise_logger
 logger = setup_enterprise_logger("AeroDrift.AutoRemediator")
 
 class AutoRemediator:
+    def __init__(self, alerts):
+        self.alerts = alerts
+        self.mode = "bash"
+
+    def set_mode(self, mode: str):
+        self.mode = mode
+
     def __init__(self, alerts, safe_mode=True):
         self.alerts = alerts
         self.safe_mode = safe_mode
