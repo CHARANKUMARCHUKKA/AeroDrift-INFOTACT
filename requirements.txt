@@ -12,3 +12,5 @@ sqlalchemy
 streamlit
 pandas
 requests
+bandit
+safety
