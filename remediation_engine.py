@@ -53,3 +53,20 @@ class AutoRemediator:
             f.write("#!/bin/bash\n")
             f.write("\n".join(self.remediation_commands) + "\n")
         return filename
+
+    def generate_terraform(self) -> str:
+        """Generates a Terraform override file to fix security groups."""
+        tf_code = """
+# AeroDrift Auto-Generated Remediation
+resource "aws_security_group_rule" "revoke_public_access" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "var.target_sg_id"
+}
+"""
+        with open("remediate.tf", "w") as f:
+            f.write(tf_code)
+        return "remediate.tf"
