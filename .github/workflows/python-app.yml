@@ -37,6 +37,10 @@ jobs:
       run: |
         bandit -r . -f custom
 
+    - name: Dependency Check with Safety
+      run: |
+        safety check -r requirements.txt
+
     - name: Test with pytest
       run: |
         pytest
