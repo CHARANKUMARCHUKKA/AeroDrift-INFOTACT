@@ -22,3 +22,19 @@ with tab1:
             st.error("Failed to fetch topology")
     except Exception as e:
         st.warning("API Server offline.")
+
+with tab2:
+    st.header("Active Security Drifts")
+    if st.button("Run Security Scan"):
+        try:
+            res = requests.get(f"{API_URL}/drift")
+            if res.status_code == 200:
+                data = res.json()
+                if data["status"] == "secure":
+                    st.success("All systems secure! No drift detected.")
+                else:
+                    st.error("Vulnerabilities Detected!")
+                    for alert in data["alerts"]:
+                        st.warning(alert)
+        except Exception:
+            st.warning("API Server offline.")
