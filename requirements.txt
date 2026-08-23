@@ -9,3 +9,9 @@ uvicorn
 httpx
 
 sqlalchemy
+streamlit
+pandas
+requests
+bandit
+safety
+click

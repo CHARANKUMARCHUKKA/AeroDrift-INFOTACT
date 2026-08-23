@@ -33,6 +33,14 @@ jobs:
         # exit-zero treats all errors as warnings
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
+    - name: Security Scan with Bandit
+      run: |
+        bandit -r . -ll -ii || true
+
+    - name: Dependency Check with Safety
+      run: |
+        safety check -r requirements.txt || true
+
     - name: Test with pytest
       run: |
         pytest
