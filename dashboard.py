@@ -38,3 +38,15 @@ with tab2:
                         st.warning(alert)
         except Exception:
             st.warning("API Server offline.")
+
+with tab3:
+    st.header("Historical Audit Logs")
+    if st.button("Load History"):
+        try:
+            res = requests.get(f"{API_URL}/history")
+            if res.status_code == 200:
+                data = res.json()
+                df = pd.DataFrame(data["history"])
+                st.dataframe(df)
+        except Exception:
+            st.warning("API Server offline.")
