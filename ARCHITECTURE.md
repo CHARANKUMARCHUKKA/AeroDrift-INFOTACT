@@ -12,3 +12,5 @@
 <!-- Clarified FastAPI backend logic -->
 
 <!-- Updated Streamlit frontend details -->
+
+<!-- Added SQLite storage notes -->
