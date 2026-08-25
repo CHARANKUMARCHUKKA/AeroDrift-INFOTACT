@@ -97,3 +97,11 @@ AeroDrift persists all security scans into an SQLite database (`aerodrift.db`) u
 ```bash
 curl -X GET "http://localhost:8000/api/v1/history?limit=5"
 ```
+
+### Authentication
+All API endpoints (except `/health` and `/api/v1/token`) require a valid JWT Bearer token.
+To authenticate, send a POST request to `/api/v1/token` with your `username` and `password` as form data.
+
+Default credentials:
+- **Username:** `admin`
+- **Password:** `aerodrift2026`
