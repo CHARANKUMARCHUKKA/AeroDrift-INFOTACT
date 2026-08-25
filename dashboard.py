@@ -7,6 +7,23 @@ st.title("🛡️ AeroDrift Enterprise Dashboard")
 
 API_URL = "http://localhost:8000/api/v1"
 
+
+if "token" not in st.session_state:
+    st.session_state["token"] = None
+
+if not st.session_state["token"]:
+    st.subheader("Login to AeroDrift")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        res = requests.post(f"{API_URL}/token", data={"username": username, "password": password})
+        if res.status_code == 200:
+            st.session_state["token"] = res.json()["access_token"]
+            st.rerun()
+        else:
+            st.error("Invalid credentials")
+    st.stop()
+
 tab1, tab2, tab3 = st.tabs(["Topology", "Drift Alerts", "Audit History"])
 
 with tab1:
