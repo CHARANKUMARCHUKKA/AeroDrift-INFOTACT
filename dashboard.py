@@ -29,7 +29,8 @@ tab1, tab2, tab3 = st.tabs(["Topology", "Drift Alerts", "Audit History"])
 with tab1:
     st.header("Cloud Topology Graph")
     try:
-        res = requests.get(f"{API_URL}/topology")
+        headers = {"Authorization": f"Bearer {st.session_state['token']}"}
+        res = requests.get(f"{API_URL}/topology", headers=headers)
         if res.status_code == 200:
             data = res.json()
             st.metric("Total Nodes", len(data.get("nodes", [])))
@@ -44,7 +45,8 @@ with tab2:
     st.header("Active Security Drifts")
     if st.button("Run Security Scan"):
         try:
-            res = requests.get(f"{API_URL}/drift")
+            headers = {"Authorization": f"Bearer {st.session_state['token']}"}
+            res = requests.get(f"{API_URL}/drift", headers=headers)
             if res.status_code == 200:
                 data = res.json()
                 if data["status"] == "secure":
@@ -60,7 +62,8 @@ with tab3:
     st.header("Historical Audit Logs")
     if st.button("Load History"):
         try:
-            res = requests.get(f"{API_URL}/history")
+            headers = {"Authorization": f"Bearer {st.session_state['token']}"}
+            res = requests.get(f"{API_URL}/history", headers=headers)
             if res.status_code == 200:
                 data = res.json()
                 df = pd.DataFrame(data["history"])
