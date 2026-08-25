@@ -83,7 +83,7 @@ async def get_cloud_state():
     return state
 
 @app.get("/api/v1/topology")
-async def get_topology():
+async def get_topology(token: str = Depends(get_current_user)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -97,7 +97,7 @@ from drift_detector import DriftDetector
 import json
 
 @app.get("/api/v1/drift")
-async def get_drift_analysis(db: Session = Depends(get_db)):
+async def get_drift_analysis(db: Session = Depends(get_db), token: str = Depends(get_current_user)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -126,7 +126,7 @@ from remediation_engine import AutoRemediator
 from fastapi import HTTPException
 
 @app.post("/api/v1/remediate")
-async def trigger_remediation(db: Session = Depends(get_db)):
+async def trigger_remediation(db: Session = Depends(get_db), token: str = Depends(get_current_user)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -154,6 +154,6 @@ async def trigger_remediation(db: Session = Depends(get_db)):
 
 
 @app.get("/api/v1/history")
-async def get_scan_history(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+async def get_scan_history(skip: int = 0, limit: int = 10, db: Session = Depends(get_db), token: str = Depends(get_current_user)):
     logs = db.query(models.SecurityScanLog).order_by(models.SecurityScanLog.timestamp.desc()).offset(skip).limit(limit).all()
     return {"history": logs}
