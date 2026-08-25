@@ -12,8 +12,22 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 import models
 
+
 # Create database tables
 models.Base.metadata.create_all(bind=engine)
+
+# Inject default admin user
+from database import SessionLocal
+from security import get_password_hash
+db = SessionLocal()
+admin_user = db.query(models.User).filter(models.User.username == "admin").first()
+if not admin_user:
+    hashed_pw = get_password_hash("aerodrift2026")
+    admin_user = models.User(username="admin", hashed_password=hashed_pw)
+    db.add(admin_user)
+    db.commit()
+db.close()
+
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
