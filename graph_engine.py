@@ -23,6 +23,9 @@ custom_theme = Theme({
 })
 console = Console(theme=custom_theme)
 
+import azure_ingestion
+import gcp_ingestion
+
 class CloudTopologyEngine:
     """
     Encapsulates the mathematical graph logic for mapping AWS resources.
