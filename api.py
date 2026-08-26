@@ -12,8 +12,22 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 import models
 
+
 # Create database tables
 models.Base.metadata.create_all(bind=engine)
+
+# Inject default admin user
+from database import SessionLocal
+from security import get_password_hash
+db = SessionLocal()
+admin_user = db.query(models.User).filter(models.User.username == "admin").first()
+if not admin_user:
+    hashed_pw = get_password_hash("aerodrift2026")
+    admin_user = models.User(username="admin", hashed_password=hashed_pw)
+    db.add(admin_user)
+    db.commit()
+db.close()
+
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
@@ -36,6 +50,28 @@ from aws_live_ingestion import LiveAWSIngestor
 from aws_ingestion import ingest_cloud_state as fetch_mock_resources
 from graph_engine import CloudTopologyEngine
 
+
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import Depends, HTTPException, status
+from security import verify_password, create_access_token
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
+
+@app.post("/api/v1/token")
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: 'Session' = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.username == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token = create_access_token(data={"sub": user.username})
+    return {"access_token": access_token, "token_type": "bearer"}
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    return token
+
 async def get_cloud_state():
     if Config.MODE == "LIVE":
         ingestor = LiveAWSIngestor()
@@ -47,7 +83,7 @@ async def get_cloud_state():
     return state
 
 @app.get("/api/v1/topology")
-async def get_topology():
+async def get_topology(token: str = Depends(get_current_user)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -61,7 +97,7 @@ from drift_detector import DriftDetector
 import json
 
 @app.get("/api/v1/drift")
-async def get_drift_analysis(db: Session = Depends(get_db)):
+async def get_drift_analysis(db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -80,6 +116,10 @@ async def get_drift_analysis(db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_log)
     
+    from notifications import broadcast_alert
+    if alerts:
+        broadcast_alert(alerts)
+    
     return {
         "scan_id": db_log.id,
         "status": scan_status,
@@ -90,7 +130,7 @@ from remediation_engine import AutoRemediator
 from fastapi import HTTPException
 
 @app.post("/api/v1/remediate")
-async def trigger_remediation(db: Session = Depends(get_db)):
+async def trigger_remediation(db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -118,6 +158,6 @@ async def trigger_remediation(db: Session = Depends(get_db)):
 
 
 @app.get("/api/v1/history")
-async def get_scan_history(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+async def get_scan_history(skip: int = 0, limit: int = 10, db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
     logs = db.query(models.SecurityScanLog).order_by(models.SecurityScanLog.timestamp.desc()).offset(skip).limit(limit).all()
     return {"history": logs}
