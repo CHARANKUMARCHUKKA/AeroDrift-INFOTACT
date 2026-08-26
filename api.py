@@ -116,6 +116,10 @@ async def get_drift_analysis(db: Session = Depends(get_db), token: str = Depends
     db.commit()
     db.refresh(db_log)
     
+    from notifications import broadcast_alert
+    if alerts:
+        broadcast_alert(alerts)
+    
     return {
         "scan_id": db_log.id,
         "status": scan_status,
