@@ -14,3 +14,5 @@
 <!-- Updated Streamlit frontend details -->
 
 <!-- Added SQLite storage notes -->
+
+<!-- Documented NetworkX multi-cloud modeling -->
