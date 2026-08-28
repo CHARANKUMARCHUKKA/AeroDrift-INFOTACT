@@ -16,3 +16,5 @@
 <!-- Added SQLite storage notes -->
 
 <!-- Documented NetworkX multi-cloud modeling -->
+
+<!-- Added project reflection details -->
