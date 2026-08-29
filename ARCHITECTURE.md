@@ -18,3 +18,5 @@
 <!-- Documented NetworkX multi-cloud modeling -->
 
 <!-- Added project reflection details -->
+
+<!-- Refined Kubernetes deployment architecture -->
