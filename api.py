@@ -52,7 +52,7 @@ from graph_engine import CloudTopologyEngine
 
 
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, BackgroundTasks
 from security import verify_password, create_access_token
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
@@ -161,3 +161,30 @@ async def trigger_remediation(db: 'Session' = Depends(get_db), token: str = Depe
 async def get_scan_history(skip: int = 0, limit: int = 10, db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
     logs = db.query(models.SecurityScanLog).order_by(models.SecurityScanLog.timestamp.desc()).offset(skip).limit(limit).all()
     return {"history": logs}
+
+
+async def run_background_scan(db: 'Session'):
+    state = await get_cloud_state()
+    engine = CloudTopologyEngine(state)
+    engine.build()
+    
+    detector = DriftDetector(engine.graph)
+    alerts = detector.run_all_scans()
+    
+    scan_status = "vulnerable" if alerts else "secure"
+    
+    db_log = models.SecurityScanLog(
+        status=scan_status,
+        alerts_detected=json.dumps(alerts)
+    )
+    db.add(db_log)
+    db.commit()
+    
+    from notifications import broadcast_alert
+    if alerts:
+        broadcast_alert(alerts)
+
+@app.post("/api/v1/scan/async")
+async def trigger_async_scan(background_tasks: BackgroundTasks, db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
+    background_tasks.add_task(run_background_scan, db)
+    return {"message": "Security scan dispatched to background queue", "status": "processing"}
