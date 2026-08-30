@@ -188,3 +188,13 @@ async def run_background_scan(db: 'Session'):
 async def trigger_async_scan(background_tasks: BackgroundTasks, db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
     background_tasks.add_task(run_background_scan, db)
     return {"message": "Security scan dispatched to background queue", "status": "processing"}
+
+
+from fastapi.responses import PlainTextResponse
+from report_generator import generate_csv_report
+
+@app.get("/api/v1/export-report", response_class=PlainTextResponse)
+async def export_compliance_report(db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
+    logs = db.query(models.SecurityScanLog).order_by(models.SecurityScanLog.timestamp.desc()).all()
+    csv_data = generate_csv_report(logs)
+    return csv_data
