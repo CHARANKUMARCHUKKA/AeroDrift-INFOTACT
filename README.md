@@ -1,107 +1,69 @@
-![CI/CD Pipeline](https://github.com/CHARANKUMARCHUKKA/AeroDrift-INFOTACT/actions/workflows/python-app.yml/badge.svg)\n\n# AeroDrift: Agentic Cloud Topology & Remediation Graph
+# 🛡️ AeroDrift: Multi-Cloud Drift Detection Engine
 
-This is the repository for the AeroDrift project, built during the Infotact Solutions Internship (Month 1).
+**AeroDrift** is an automated, enterprise-grade infrastructure drift detection and DevSecOps remediation platform. Designed to solve the challenge of "shadow IT" and unapproved manual changes, AeroDrift actively monitors cloud architectures across **AWS, Azure, and GCP** to identify exposed subnets, unauthorized firewall rules, and critical security vulnerabilities.
 
-## Team Members
-- Charan Kumar Chukka
-- Pudi Gowtham Kumar (Team Lead)
+---
 
-## Project Overview
-AeroDrift is an autonomous "self-healing" infrastructure engine designed to intercept cloud configuration drift, model it as a directed graph, and programmatically generate remediation scripts.
+## 🚀 Key Features
 
-### Tech Stack
-- **Cloud Ingestion:** `boto3`, `asyncio`
-- **Topology Engine:** `NetworkX`
-- **Code Generator:** Python `ast`
-- **Dashboard:** `Rich` (CLI)
+- **Multi-Cloud Topology Mapping:** Ingests state from AWS, Azure, and GCP and models it using a mathematical `NetworkX` graph to identify cross-resource vulnerabilities.
+- **Asynchronous Security Scanning:** Utilizes FastAPI `BackgroundTasks` to execute massive compliance scans without blocking the user interface.
+- **Automated Remediation Engine:** Capable of automatically reverting dangerous infrastructure changes (e.g., closing exposed ports).
+- **Enterprise Dashboard:** An interactive `Streamlit` web portal featuring JWT Authentication, Role-Based Access Control (RBAC), and Plotly data visualizations.
+- **SOC2 Compliance Reporting:** One-click CSV export of historical audit logs for compliance officers.
+- **Real-Time Alerting:** Integrated SMTP Email digests and Webhooks for Slack and Microsoft Teams.
+- **Custom Rules Engine:** Define your own security signatures and forbidden ports via `custom_rules.json`.
 
-## Week-wise Plan
-- **Week 1:** AWS Ingestion & Graph Foundations
-- **Week 2:** Drift Detection & CLI Interface
-- **Week 3:** Agentic Remediation & Execution Sandbox
-- **Week 4:** State Persistence & Final Polish
+---
 
-## Setup Instructions
-1. Create a virtual environment: `python -m venv venv`
-2. Activate it: `.\venv\Scripts\activate` (Windows) or `source venv/bin/activate` (Mac/Linux)
-3. Install dependencies: `pip install -r requirements.txt`
+## 🛠️ Tech Stack
 
-## Daily Work Log
-- **Day 1:** Initialized Git repository, setup `README.md`, `requirements.txt`, and `.gitignore`. Built the core `aws_ingestion.py` and `graph_engine.py` for AeroDrift Week 1.
-- **Day 2:** Refactored the core ingestion engine to use `asyncio` for high-concurrency polling and added network resiliency/retry logic. Built the NetworkX Cloud Topology Engine and the `Rich` CLI dashboard.
-- **Day 3:** Built the `DriftDetector` module to programmatically scan the graph for cybersecurity anti-patterns (e.g., exposed public subnets, overly permissive 0.0.0.0/0 Security Groups). Implemented the Pytest framework with 8 automated tests.
-- **Day 4:** Developed the **Auto-Remediation Engine** (`remediation_engine.py`) to parse Drift Detector alerts and automatically generate an AWS CLI bash script (`remediate_drift.sh`) to patch cloud vulnerabilities.
-- **Day 5:** Configured an Enterprise CI/CD Pipeline using GitHub Actions (`python-app.yml`). Implemented automated matrix testing (Python 3.10-3.12) and strict code-quality linting using `flake8`.
-- **Day 6:** Containerized the AeroDrift engine by creating a highly-optimized, secure `Dockerfile` running on a non-root user. Orchestrated local deployments with `docker-compose.yml`.
-- **Day 7:** Built an **Advanced Enterprise JSON Logging System** (`enterprise_logger.py`). Configured file rotation handlers and integrated structured JSON logging across all 4 core engines for Splunk/Datadog compatibility.
+- **Backend:** Python 3, FastAPI, Uvicorn, NetworkX, SQLite, SQLAlchemy, Passlib (bcrypt)
+- **Frontend:** Streamlit, Plotly, Pandas
+- **DevSecOps:** GitHub Actions, Bandit (SAST), Safety (Dependency Scanning)
+- **Infrastructure:** Docker, Docker Compose, Kubernetes, Terraform
 
-## Auto-Remediation Engine
-AeroDrift includes an advanced `AutoRemediator` class. When the Drift Detector flags vulnerabilities (like exposed subnets or overly permissive security groups), the Auto-Remediator parses those alerts and automatically generates an AWS CLI bash script (`remediate_drift.sh`) to patch the vulnerabilities without human intervention.
+---
 
-## 🐳 Docker Deployment
+## 💻 How to Run Locally
 
-AeroDrift is fully containerized for enterprise deployments.
-
-**Build the image:**
+### 1. Install Dependencies
+Ensure you have Python installed, activate your virtual environment, and run:
 ```bash
-docker build -t aerodrift .
+pip install -r requirements.txt
 ```
 
-**Run the engine:**
+### 2. Start the FastAPI Backend
+Start the core asynchronous engine on port 8000:
 ```bash
-docker run --rm aerodrift
+python -m uvicorn api:app --reload
 ```
 
-**Using Docker Compose:**
+### 3. Start the Streamlit Dashboard
+Open a **new terminal window**, activate your virtual environment, and run the UI on port 8501:
 ```bash
-docker-compose up --build
+python -m streamlit run dashboard.py
 ```
 
-## 📊 Enterprise Logging
-AeroDrift features an enterprise-grade JSON logging system. All operations are automatically logged in structured JSON format to `logs/aerodrift.json` with a 5MB automatic rotation policy, making it instantly compatible with Splunk, Datadog, and ELK stacks.
-
-## ☁️ Live AWS Boto3 Integration
-AeroDrift supports both `MOCK` mode for testing and `LIVE` mode for connecting to real AWS accounts.
-
-**To run in LIVE mode:**
-1. Export your AWS Credentials:
-   ```bash
-   export AWS_ACCESS_KEY_ID="your_key"
-   export AWS_SECRET_ACCESS_KEY="your_secret"
-   ```
-2. Set the engine mode:
-   ```bash
-   export AERODRIFT_MODE="LIVE"
-   ```
-3. Required IAM Permissions:
-   - `ec2:DescribeInstances`
-   - `ec2:DescribeSubnets`
-   - `ec2:DescribeSecurityGroups`
-
-## 🌐 REST API (FastAPI)
-AeroDrift is accessible via a high-performance REST API.
-Start the server locally:
-```bash
-uvicorn api:app --reload
-```
-- **Swagger Docs:** `http://localhost:8000/docs`
-- **Health Check:** `curl http://localhost:8000/health`
-- **Get Topology:** `curl http://localhost:8000/api/v1/topology`
-- **Scan Drift:** `curl http://localhost:8000/api/v1/drift`
-- **Auto-Remediate:** `curl -X POST http://localhost:8000/api/v1/remediate`
-
-### Audit History API (Database)
-AeroDrift persists all security scans into an SQLite database (`aerodrift.db`) using SQLAlchemy.
-* `GET /api/v1/history` - Retrieve a paginated list of all historical security scans.
-
-```bash
-curl -X GET "http://localhost:8000/api/v1/history?limit=5"
-```
-
-### Authentication
-All API endpoints (except `/health` and `/api/v1/token`) require a valid JWT Bearer token.
-To authenticate, send a POST request to `/api/v1/token` with your `username` and `password` as form data.
-
-Default credentials:
+### 4. Login
+Open your browser to `http://localhost:8501`.
 - **Username:** `admin`
 - **Password:** `aerodrift2026`
+
+---
+
+## 🏗️ Deployment (Production)
+
+AeroDrift is built for enterprise deployment. The repository includes:
+- **Docker Compose:** `docker-compose up --build -d`
+- **Kubernetes:** Apply the manifests located in the `/k8s` directory (`kubectl apply -f k8s/`).
+- **Terraform:** Provision AWS EC2 infrastructure using the modules in the `/terraform` directory.
+
+---
+
+## 📜 Architecture Overview
+For a deep dive into the system components, data flow, and threat models, please refer to the [ARCHITECTURE.md](ARCHITECTURE.md) document.
+
+---
+*Developed as the Final Project for the Infotact Solutions Software Engineering Internship.*
+*Release: v1.0.0*
