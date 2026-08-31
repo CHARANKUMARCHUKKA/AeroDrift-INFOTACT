@@ -17,4 +17,5 @@ safety
 click
 python-jose[cryptography]
 passlib[bcrypt]
-python-multipartplotly
+python-multipart
+plotly
