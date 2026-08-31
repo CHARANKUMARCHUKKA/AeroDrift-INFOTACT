@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aerodrift-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: aerodrift-api
+  template:
+    metadata:
+      labels:
+        app: aerodrift-api
+    spec:
+      containers:
+      - name: api
+        image: aerodrift-api:latest
+        ports:
+        - containerPort: 8000
