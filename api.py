@@ -29,6 +29,9 @@ if not admin_user:
 db.close()
 
 
+from rate_limiter import rate_limiter_middleware
+app.middleware("http")(rate_limiter_middleware)
+
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     start_time = time.time()

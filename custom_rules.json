@@ -1,0 +1,10 @@
+{
+  "rules": [
+    {
+      "id": "RULE-001",
+      "type": "port_check",
+      "forbidden_ports": [22, 3389],
+      "severity": "HIGH"
+    }
+  ]
+}
