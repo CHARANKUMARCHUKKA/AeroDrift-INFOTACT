@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroDrift: Project Overview & User Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fcfcfc;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #34495e;
+        }
+        p {
+            font-size: 16px;
+        }
+        .box {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .step {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .step-title {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>AeroDrift: Project Overview & User Guide</h1>
+
+    <h2>Part 1: What is AeroDrift? (In Simple Words)</h2>
+    
+    <div class="box">
+        <strong>The Problem:</strong> Imagine a company has hundreds of servers running in the cloud (AWS, Google Cloud, Azure). These servers are protected by "virtual doors" (firewalls). Sometimes, an engineer might temporarily "unlock a door" to fix a bug, but then they forget to lock it back. This is called <strong>"Infrastructure Drift."</strong> If a hacker finds that unlocked door, the company gets breached.
+    </div>
+
+    <p><strong>The Solution: AeroDrift</strong> is like an automated, 24/7 robotic security guard for the cloud.</p>
+    
+    <ul>
+        <li><strong>It Maps the Building:</strong> It constantly connects to AWS, Azure, and Google Cloud to draw a map of every single server and firewall the company owns.</li>
+        <li><strong>It Checks the Doors:</strong> It runs security scans in the background to see if any doors (ports) were accidentally left unlocked to the public internet.</li>
+        <li><strong>It Sounds the Alarm:</strong> If it finds a vulnerability, it instantly alerts the security team on a beautiful web dashboard, sends an email, and posts a message to Slack/Microsoft Teams.</li>
+        <li><strong>It Locks the Door (Remediation):</strong> If authorized, it can actually write code to automatically lock the door back up, fixing the problem before a hacker can get in.</li>
+    </ul>
+
+    <p><strong>In technical terms:</strong> AeroDrift is a Multi-Cloud DevSecOps platform built with a Python FastAPI backend and a Streamlit frontend, fully containerized with Docker, Kubernetes, and Terraform infrastructure-as-code.</p>
+
+    <hr style="margin: 40px 0; border: 1px solid #eee;">
+
+    <h2>Part 2: Why Use AeroDrift? (Business Value)</h2>
+    <p>In today's fast-moving tech environment, companies deploy code hundreds of times a day across multiple cloud providers. This creates massive security risks:</p>
+    <ul>
+        <li><strong>Preventing Costly Data Breaches:</strong> A single misconfigured database or open firewall port can lead to millions of dollars in fines (like GDPR or HIPAA violations) and lost customer trust. AeroDrift catches these human errors <em>before</em> hackers do.</li>
+        <li><strong>Eliminating "Shadow IT":</strong> Developers sometimes spin up servers for quick tests and forget to shut them down or secure them. AeroDrift automatically discovers every hidden asset in the cloud.</li>
+        <li><strong>Saving Security Teams Hundreds of Hours:</strong> Without AeroDrift, security engineers have to manually log into AWS, Azure, and Google Cloud, clicking through hundreds of menus to check firewall rules. AeroDrift automates this entirely, freeing up the team to focus on higher-level threats.</li>
+        <li><strong>Instant SOC2 Compliance:</strong> Government and enterprise contracts require strict compliance audits (like SOC2). AeroDrift's one-click CSV export provides instant mathematical proof to auditors that the environment is secure and monitored 24/7.</li>
+    </ul>
+
+    <hr style="margin: 40px 0; border: 1px solid #eee;">
+
+    <h2>Part 3: How to Use the Application</h2>
+    <p>Here is a step-by-step guide on how a Cybersecurity Engineer uses the AeroDrift platform to secure their company:</p>
+
+    <div class="step">
+        <div class="step-title">Step 1: Secure Login</div>
+        <p>The engineer opens the AeroDrift dashboard in their web browser. Because the system is protected by Enterprise JWT (JSON Web Token) Security and Role-Based Access Control, they must log in using their secure administrator credentials.</p>
+    </div>
+
+    <div class="step">
+        <div class="step-title">Step 2: Understand the Architecture (Topology Tab)</div>
+        <p>They click on the <strong>Topology</strong> tab. Here, they see a visual list of all the company's servers, databases, and networks across AWS, Azure, and Google Cloud. This allows the engineer to know exactly what infrastructure exists in their environment at any given second.</p>
+    </div>
+
+    <div class="step">
+        <div class="step-title">Step 3: Run a Security Sweep (Drift Alerts Tab)</div>
+        <p>They navigate to the <strong>Drift Alerts</strong> tab and click the <strong>"Run Security Scan"</strong> button. AeroDrift pushes this task to a background thread (so the web page doesn't freeze) and quietly checks hundreds of servers to see if anyone accidentally left a firewall open (like port 22 or 443).</p>
+    </div>
+
+    <div class="step">
+        <div class="step-title">Step 4: Fix the Vulnerabilities</div>
+        <p>If AeroDrift finds an exposed server, a red alert immediately pops up on the screen saying <em>"CRITICAL: Subnet is public and exposed!"</em> The engineer now knows exactly which server is in danger and can fix it before a hacker finds it.</p>
+    </div>
+
+    <div class="step">
+        <div class="step-title">Step 5: Export Compliance Proof (Audit History Tab)</div>
+        <p>At the end of the month, the engineer's boss (or a government compliance auditor) asks, <em>"Is our cloud secure?"</em> The engineer goes to the <strong>Audit History</strong> tab, clicks <strong>Download Compliance Report</strong>, and is instantly given an Excel spreadsheet (CSV) showing a permanent record of every scan they ran and every problem they fixed.</p>
+    </div>
+
+    <p style="text-align: center; margin-top: 40px; color: #7f8c8d; font-size: 14px;">
+        <em>Document generated for AeroDrift v1.0.0</em>
+    </p>
+
+</body>
+</html>
