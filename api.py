@@ -61,7 +61,7 @@ from security import verify_password, create_access_token
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
 
 @app.post("/api/v1/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: 'Session' = Depends(get_db)):
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.username == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
@@ -100,7 +100,7 @@ from drift_detector import DriftDetector
 import json
 
 @app.get("/api/v1/drift")
-async def get_drift_analysis(db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
+async def get_drift_analysis(db: Session = Depends(get_db), token: str = Depends(get_current_user)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -133,7 +133,7 @@ from remediation_engine import AutoRemediator
 from fastapi import HTTPException
 
 @app.post("/api/v1/remediate")
-async def trigger_remediation(db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
+async def trigger_remediation(db: Session = Depends(get_db), token: str = Depends(get_current_user)):
     state = await get_cloud_state()
     engine = CloudTopologyEngine(state)
     engine.build()
@@ -161,34 +161,37 @@ async def trigger_remediation(db: 'Session' = Depends(get_db), token: str = Depe
 
 
 @app.get("/api/v1/history")
-async def get_scan_history(skip: int = 0, limit: int = 10, db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
+async def get_scan_history(skip: int = 0, limit: int = 10, db: Session = Depends(get_db), token: str = Depends(get_current_user)):
     logs = db.query(models.SecurityScanLog).order_by(models.SecurityScanLog.timestamp.desc()).offset(skip).limit(limit).all()
     return {"history": logs}
 
 
-async def run_background_scan(db: 'Session'):
-    state = await get_cloud_state()
-    engine = CloudTopologyEngine(state)
-    engine.build()
-    
-    detector = DriftDetector(engine.graph)
-    alerts = detector.run_all_scans()
-    
-    scan_status = "vulnerable" if alerts else "secure"
-    
-    db_log = models.SecurityScanLog(
-        status=scan_status,
-        alerts_detected=json.dumps(alerts)
-    )
-    db.add(db_log)
-    db.commit()
-    
-    from notifications import broadcast_alert
-    if alerts:
-        broadcast_alert(alerts)
+async def run_background_scan(db: Session):
+    try:
+        state = await get_cloud_state()
+        engine = CloudTopologyEngine(state)
+        engine.build()
+        
+        detector = DriftDetector(engine.graph)
+        alerts = detector.run_all_scans()
+        
+        scan_status = "vulnerable" if alerts else "secure"
+        
+        db_log = models.SecurityScanLog(
+            status=scan_status,
+            alerts_detected=json.dumps(alerts)
+        )
+        db.add(db_log)
+        db.commit()
+        
+        from notifications import broadcast_alert
+        if alerts:
+            broadcast_alert(alerts)
+    except Exception as e:
+        logger.error(f"Background scan failed: {str(e)}")
 
 @app.post("/api/v1/scan/async")
-async def trigger_async_scan(background_tasks: BackgroundTasks, db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
+async def trigger_async_scan(background_tasks: BackgroundTasks, db: Session = Depends(get_db), token: str = Depends(get_current_user)):
     background_tasks.add_task(run_background_scan, db)
     return {"message": "Security scan dispatched to background queue", "status": "processing"}
 
@@ -197,7 +200,7 @@ from fastapi.responses import PlainTextResponse
 from report_generator import generate_csv_report
 
 @app.get("/api/v1/export-report", response_class=PlainTextResponse)
-async def export_compliance_report(db: 'Session' = Depends(get_db), token: str = Depends(get_current_user)):
+async def export_compliance_report(db: Session = Depends(get_db), token: str = Depends(get_current_user)):
     logs = db.query(models.SecurityScanLog).order_by(models.SecurityScanLog.timestamp.desc()).all()
     csv_data = generate_csv_report(logs)
     return csv_data
