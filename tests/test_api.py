@@ -27,8 +27,8 @@ def test_get_topology():
     assert "nodes" in data
     assert "edges" in data
 
-def test_get_drift():
+def test_get_scan_async():
     headers = get_auth_headers()
-    response = client.get("/api/v1/drift", headers=headers)
+    response = client.post("/api/v1/scan/async", headers=headers)
     assert response.status_code == 200
     assert "status" in response.json()
