@@ -35,12 +35,17 @@ def scan(username, password):
     console.print(Panel.fit("[bold cyan]🛡️ AeroDrift Terminal Audit Engine[/bold cyan]"))
     
     with console.status("[bold yellow]Authenticating with API...[/bold yellow]"):
-        res = requests.post(f"{API_URL}/token", data={"username": username, "password": password})
-        if res.status_code != 200:
-            console.print("[bold red]❌ Authentication Failed! Is the API running? ([i]python -m uvicorn api:app[/i])[/bold red]")
+        try:
+            res = requests.post(f"{API_URL}/token", data={"username": username, "password": password})
+            if res.status_code != 200:
+                console.print("[bold red]❌ Authentication Failed! Incorrect username or password.[/bold red]")
+                return
+            token = res.json()["access_token"]
+            headers = {"Authorization": f"Bearer {token}"}
+        except requests.exceptions.RequestException:
+            console.print("[bold red]❌ Connection Error! The FastAPI backend is not running.[/bold red]")
+            console.print("Please start it in another terminal by running: [bold cyan]python -m uvicorn api:app --reload[/bold cyan]")
             return
-        token = res.json()["access_token"]
-        headers = {"Authorization": f"Bearer {token}"}
     
     console.print("[bold green]✅ Authentication Successful![/bold green]")
     
