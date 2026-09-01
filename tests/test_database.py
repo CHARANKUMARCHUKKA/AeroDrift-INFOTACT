@@ -1,21 +1,15 @@
 import pytest
-try:
-    from sqlalchemy import create_engine
-    from sqlalchemy.orm import sessionmaker
-    from database import Base
-    import models
-    HAS_SQLALCHEMY = True
-except ImportError:
-    HAS_SQLALCHEMY = False
-
-pytestmark = pytest.mark.skipif(not HAS_SQLALCHEMY, reason="SQLAlchemy not installed locally")
-
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from database import Base
+import models
 import datetime
 
 # Create an in-memory SQLite database for testing
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 
 Base.metadata.create_all(bind=engine)
 
