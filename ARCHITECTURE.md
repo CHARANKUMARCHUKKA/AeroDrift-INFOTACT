@@ -20,3 +20,5 @@
 <!-- Added project reflection details -->
 
 <!-- Refined Kubernetes deployment architecture -->
+
+<!-- Updated API routing architecture notes -->
