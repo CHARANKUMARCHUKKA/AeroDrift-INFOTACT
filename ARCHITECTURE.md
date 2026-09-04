@@ -22,3 +22,5 @@
 <!-- Refined Kubernetes deployment architecture -->
 
 <!-- Updated API routing architecture notes -->
+
+<!-- Added security module specifications -->
