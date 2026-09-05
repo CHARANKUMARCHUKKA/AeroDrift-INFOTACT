@@ -30,3 +30,5 @@
 - Designed to scale horizontally with Kubernetes.
 
 - Prometheus and Grafana can be attached for telemetry.
+
+- NetworkX DiGraph used for O(V+E) pathfinding.
