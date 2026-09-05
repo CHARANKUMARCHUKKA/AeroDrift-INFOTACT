@@ -50,3 +50,5 @@
 - Rate limits implemented to prevent DDoS attacks.
 
 - FastAPI configured with strict CORS and CSP headers.
+
+- Redis can be implemented for aggressive API caching.
