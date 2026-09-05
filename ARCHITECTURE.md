@@ -28,3 +28,5 @@
 <!-- Finalized architecture documentation for v1.0.0 -->
 
 - Designed to scale horizontally with Kubernetes.
+
+- Prometheus and Grafana can be attached for telemetry.
