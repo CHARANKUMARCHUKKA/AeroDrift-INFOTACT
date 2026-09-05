@@ -38,3 +38,5 @@
 - Alerts configured for Slack and MS Teams webhooks.
 
 - Requires AWS IAM ReadOnlyAccess for ingestion.
+
+- GitHub Actions pipeline ensures code quality.
