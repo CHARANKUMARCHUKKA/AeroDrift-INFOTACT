@@ -60,3 +60,5 @@
 - STRIDE threat model applied to architecture design.
 
 - Streamlit UI optimized for mobile viewport rendering.
+
+- Abstract Syntax Trees used for dynamic script generation.
