@@ -40,3 +40,5 @@
 - Requires AWS IAM ReadOnlyAccess for ingestion.
 
 - GitHub Actions pipeline ensures code quality.
+
+- Multi-stage Dockerfile reduces image size footprint.
