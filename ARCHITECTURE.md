@@ -44,3 +44,5 @@
 - Multi-stage Dockerfile reduces image size footprint.
 
 - Terraform state should be stored in remote S3 bucket.
+
+- API deployed across multiple availability zones.
