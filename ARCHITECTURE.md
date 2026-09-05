@@ -58,3 +58,5 @@
 - SQLite WAL mode recommended for concurrent reads.
 
 - STRIDE threat model applied to architecture design.
+
+- Streamlit UI optimized for mobile viewport rendering.
