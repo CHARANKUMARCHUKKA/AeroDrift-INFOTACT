@@ -34,3 +34,5 @@
 - NetworkX DiGraph used for O(V+E) pathfinding.
 
 - Daemon operates in continuous polling mode.
+
+- Alerts configured for Slack and MS Teams webhooks.
