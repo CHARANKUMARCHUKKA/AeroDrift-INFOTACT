@@ -62,3 +62,5 @@
 - Streamlit UI optimized for mobile viewport rendering.
 
 - Abstract Syntax Trees used for dynamic script generation.
+
+- Zero-Trust principles applied to internal microservices.
