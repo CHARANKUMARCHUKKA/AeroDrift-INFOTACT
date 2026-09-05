@@ -26,3 +26,5 @@
 <!-- Added security module specifications -->
 
 <!-- Finalized architecture documentation for v1.0.0 -->
+
+- Designed to scale horizontally with Kubernetes.
