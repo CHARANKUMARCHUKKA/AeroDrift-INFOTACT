@@ -52,3 +52,5 @@
 - FastAPI configured with strict CORS and CSP headers.
 
 - Redis can be implemented for aggressive API caching.
+
+- Dependencies locked via requirements.txt for stability.
