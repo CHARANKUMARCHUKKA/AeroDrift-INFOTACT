@@ -36,3 +36,5 @@
 - Daemon operates in continuous polling mode.
 
 - Alerts configured for Slack and MS Teams webhooks.
+
+- Requires AWS IAM ReadOnlyAccess for ingestion.
