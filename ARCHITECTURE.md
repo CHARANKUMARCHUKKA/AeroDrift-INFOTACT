@@ -56,3 +56,5 @@
 - Dependencies locked via requirements.txt for stability.
 
 - SQLite WAL mode recommended for concurrent reads.
+
+- STRIDE threat model applied to architecture design.
