@@ -46,3 +46,5 @@
 - Terraform state should be stored in remote S3 bucket.
 
 - API deployed across multiple availability zones.
+
+- Rate limits implemented to prevent DDoS attacks.
