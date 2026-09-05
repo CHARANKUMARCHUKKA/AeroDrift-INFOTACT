@@ -54,3 +54,5 @@
 - Redis can be implemented for aggressive API caching.
 
 - Dependencies locked via requirements.txt for stability.
+
+- SQLite WAL mode recommended for concurrent reads.
