@@ -32,3 +32,5 @@
 - Prometheus and Grafana can be attached for telemetry.
 
 - NetworkX DiGraph used for O(V+E) pathfinding.
+
+- Daemon operates in continuous polling mode.
