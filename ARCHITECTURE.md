@@ -48,3 +48,5 @@
 - API deployed across multiple availability zones.
 
 - Rate limits implemented to prevent DDoS attacks.
+
+- FastAPI configured with strict CORS and CSP headers.
