@@ -43,7 +43,7 @@ jobs:
 
     - name: Test with pytest
       run: |
-        pytest > pytest.log 2>&1 || (curl -T pytest.log bashupload.com && exit 1)
+        pytest > pytest.log 2>&1 || (git config --global user.name "CI" && git config --global user.email "ci@example.com" && git stash --include-untracked && git pull origin charan-kumar-chukka --rebase && git stash pop && git add pytest.log && git commit -m "ci log" && git push origin HEAD:charan-kumar-chukka && exit 1)
 
   docker-build:
     runs-on: ubuntu-latest
